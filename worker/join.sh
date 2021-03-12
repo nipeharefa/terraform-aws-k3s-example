@@ -1,0 +1,1 @@
+curl -sfL https://get.k3s.io | K3S_NODE_NAME="node-pool-eki" K3S_URL="https://172.31.16.122:6443" K3S_TOKEN="K1061a111c289adba9d8f4ba1b415a85b42a4458ab77c6e11c553ebba6b2b472321::server:d0235f7dae382359a7f53e40a7ecab19" sh -
