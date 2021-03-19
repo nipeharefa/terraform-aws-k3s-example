@@ -32,6 +32,16 @@ resource "null_resource" "master" {
     cluster_instance_ids = join(",", aws_spot_instance_request.master.*.public_ip)
   }
 
+  provisioner "file" {
+    source = "master/init.sh"
+    destination = "/home/ubuntu/init.sh"
+    
+    connection {
+      host = element(aws_spot_instance_request.master.*.public_ip, 0)
+      user = "ubuntu"
+    }
+  }
+
   provisioner "remote-exec" {
     connection {
       # host = aws_spot_instance_request.master.public_dns
@@ -40,7 +50,8 @@ resource "null_resource" "master" {
     }
 
     inline = [
-      "curl -sfL https://get.k3s.io | sh -"
+      "chmod +x /home/ubuntu/init.sh",
+      "sh /home/ubuntu/init.sh"
     ]
   }
 }
